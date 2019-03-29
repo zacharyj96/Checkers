@@ -25,6 +25,18 @@ class Board(Tk):
         self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="black")
     def draw_circle(self, x1, y1, x2, y2, color):
         self.canvas.create_oval(x1, y1, x2, y2, fill=color, outline="black")
+    def repaint_board(self):
+        for (i, j) in product(range(10), range(10)):
+                          coordX1 = (i * size)
+                          coordY1 = (j * size)
+                          coordX2 = coordX1 + size
+                          coordY2 = coordY1 + size
+                          color = "white" if i%2 == j%2 else "black"
+                          board.draw_rectangle(coordX1, coordY1, coordX2, coordY2, color)
+                          cell = board.logicBoard[i][j]
+                          if cell != 0:
+                            pawnColor = "red" if cell > 0 else "green"
+                            board.draw_circle(coordX1, coordY1, coordX2, coordY2, pawnColor)
     def onclick(self, event):
         i = int(event.x / self.cellsize)
         j = int(event.y / self.cellsize)
@@ -41,6 +53,7 @@ class Board(Tk):
                         self.logicBoard[self.prevI][self.prevJ] = 0
                         print("Successful move.")
                         successfulMove = True
+                        self.repaint_board()
                     else:
                         print("Invalid move. Select starting piece again.")
                 elif i - 2 == self.prevI and j + 2 == self.prevJ:
@@ -55,6 +68,7 @@ class Board(Tk):
                             self.logicBoard[i - 1][j + 1] = 0
                             print("Successful move.")
                             successfulMove = True
+                            self.repaint_board()
                         else:
                             print("Invalid move. Select starting piece again.")
                     else:
@@ -71,6 +85,7 @@ class Board(Tk):
                             self.logicBoard[i - 1][j - 1] = 0
                             print("Successful move.")
                             successfulMove = True
+                            self.repaint_board()
                         else:
                             print("Invalid move. Select starting piece again.")
                     else:
@@ -95,6 +110,7 @@ class Board(Tk):
 
                         self.logicBoard[self.prevI][self.prevJ] = 0
                         print("Successful move.")
+                        self.repaint_board()
                     else:
                         print("Invalid move. Select starting piece again.")
                 elif i + 2 == self.prevI and j + 2 == self.prevJ:
@@ -113,6 +129,7 @@ class Board(Tk):
                             self.logicBoard[self.prevI][self.prevJ] = 0
                             self.logicBoard[i + 1][j + 1] = 0
                             print("Successful jump.")
+                            self.repaint_board()
                         else:
                             #invalid move
                             print("Invalid move. Select starting piece again.")
@@ -135,6 +152,7 @@ class Board(Tk):
                             self.logicBoard[self.prevI][self.prevJ] = 0
                             self.logicBoard[i + 1][j - 1] = 0
                             print("Successful jump.")
+                            self.repaint_board()
                         else:
                             #invalid move
                             print("Invalid move. Select starting piece again.")
