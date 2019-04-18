@@ -40,9 +40,34 @@ class Board(Tk):
     def onclick(self, event):
         i = int(event.x / self.cellsize)
         j = int(event.y / self.cellsize)
-        successfulMove = False
+        #successfulMove = False
+
+        
         
         if self.secondClick:
+            if self.isValidMove(True, self.prevI, self.prevJ, i, j):
+                print("Successful move.")
+                #repaint board
+                self.logicBoard[self.prevI][self.prevJ] = 0;
+                if self.logicBoard[i][j] == 2 or i == 0:
+                    #piece is a king
+                    self.logicBoard[i][j] = 2
+                else:
+                    #piece is standard
+                    self.logicBoard[i][j] = 1
+                if i == self.prevI + 2 and j == self.prevJ + 2:
+                    self.logicBoard[self.prevI + 1][self.prevJ + 1] = 0
+                elif i == self.prevI + 2 and j == self.prevJ - 2:
+                    self.logicBoard[self.prevI + 1][self.prevJ - 1] = 0
+                elif i == self.prevI - 2 and j == self.prevJ + 2:
+                    self.logicBoard[self.prevI - 1][self.prevJ + 1] = 0
+                elif i == self.prevI - 2 and j == self.prevJ - 2:
+                    self.logicBoard[self.prevI - 1][self.prevJ - 1] = 0
+
+                self.repaint_board()
+            else:
+                print("Invalid move.")
+            '''
             if self.logicBoard[i][j] == 2:
                 #piece is a king
                 if i - 1 == self.prevI and (j + 1 == self.prevJ or j - 1 == self.prevJ):
@@ -162,10 +187,10 @@ class Board(Tk):
                 else:
                     #invalid move
                     print("Invalid move. Select starting piece again.")
-
+            '''
             self.secondClick = False
         else:
-            if self.logicBoard[i][j] == 1:
+            if self.logicBoard[i][j] > 0:
                 #valid piece
                 self.prevI = i
                 self.prevJ  = j
@@ -173,6 +198,294 @@ class Board(Tk):
                 print ("You clicked on cell (%s, %s)" % (i, j))
             else:
                 print ("Not a cell with one of your pieces. Please select a different cell")
+
+    def isValidMove(self, isPlayer, i1, j1, i2, j2):
+        successfulMove = False
+        if self.logicBoard[i1][j1] == 0:
+            return False
+        elif self.logicBoard[i1][j1] > 0 and isPlayer:
+            #player move
+            if self.logicBoard[i1][j1] == 2:
+                #piece is a king
+                if i1 + 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
+                    #possible standard move
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, update board
+
+                        #self.logicBoard[i][j] = 2
+                        #self.logicBoard[self.prevI][self.prevJ] = 0
+                        #print("Successful move.")
+                        successfulMove = True
+                        #self.repaint_board()
+                        return True
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 + 2 == i2 and j1 + 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 - 1][j2 - 1] < 0:
+                            #possible to move, update board
+                            
+                            #self.logicBoard[i][j] = 2
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i - 1][j + 1] = 0
+                            #print("Successful move.")
+                            successfulMove = True
+                            #self.repaint_board()
+                            return True
+                        else:
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 + 2 == i2 and j1 - 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 - 1][j2 + 1] < 0:
+                            #possible to move, update board
+
+                            #self.logicBoard[i][j] = 2
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i - 1][j - 1] = 0
+                            #print("Successful move.")
+                            successfulMove = True
+                            #self.repaint_board()
+                            return True
+                        else:
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                #else:
+                    #print("Invalid king move.")
+
+
+
+            if not successfulMove:
+                #piece is normal
+                if i1 - 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
+                    #possible standard move
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, update board
+
+                        #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                            #piece is king
+                            #self.logicBoard[i][j] = 2
+                            #print("King successful.")
+                        #else:
+                            #self.logicBoard[i][j] = 1
+
+                        #self.logicBoard[self.prevI][self.prevJ] = 0
+                        #print("Successful move.")
+                        #self.repaint_board()
+                        return True
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 - 2 == i2 and j1 + 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 + 1][j2 - 1] < 0:
+                            #possible to move, update board
+                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                                #piece is king
+                                #self.logicBoard[i][j] = 2
+                                #print("King successful.")
+                            #else:
+                                #self.logicBoard[i][j] = 1
+
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i + 1][j + 1] = 0
+                            #print("Successful jump.")
+                            #self.repaint_board()
+                            return True
+                        else:
+                            #invalid move
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        #invalid move
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 - 2 == i2 and j1 - 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 + 1][j2 + 1] < 0:
+                            #possible to move, update board
+                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                                #piece is king
+                                #self.logicBoard[i][j] = 2
+                                #print("King successful.")
+                            #else:
+                                #self.logicBoard[i][j] = 1
+
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i + 1][j - 1] = 0
+                            #print("Successful jump.")
+                            #self.repaint_board()
+                            return True
+                        else:
+                            #invalid move
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        #invalid move
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                else:
+                    #invalid move
+                    return False
+                    #print("Invalid move. Select starting piece again.")
+        elif self.logicBoard[i1][j1] < 0 and not isPlayer:
+            #computer move
+            if self.logicBoard[i1][j1] == -2:
+                #piece is a king
+                if i1 - 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
+                    #possible standard move
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, update board
+
+                        #self.logicBoard[i][j] = 2
+                        #self.logicBoard[self.prevI][self.prevJ] = 0
+                        #print("Successful move.")
+                        successfulMove = True
+                        #self.repaint_board()
+                        return True
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 - 2 == i2 and j1 + 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 + 1][j2 - 1] > 0:
+                            #possible to move, update board
+                            
+                            #self.logicBoard[i][j] = 2
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i - 1][j + 1] = 0
+                            #print("Successful move.")
+                            successfulMove = True
+                            #self.repaint_board()
+                            return True
+                        else:
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 - 2 == i2 and j1 - 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 + 1][j2 + 1] > 0:
+                            #possible to move, update board
+
+                            #self.logicBoard[i][j] = 2
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i - 1][j - 1] = 0
+                            #print("Successful move.")
+                            successfulMove = True
+                            #self.repaint_board()
+                            return True
+                        else:
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                #else:
+                    #print("Invalid king move.")
+
+
+
+            if not successfulMove:
+                #piece is normal
+                if i1 + 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
+                    #possible standard move
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, update board
+
+                        #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                            #piece is king
+                            #self.logicBoard[i][j] = 2
+                            #print("King successful.")
+                        #else:
+                            #self.logicBoard[i][j] = 1
+
+                        #self.logicBoard[self.prevI][self.prevJ] = 0
+                        #print("Successful move.")
+                        #self.repaint_board()
+                        return True
+                    else:
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 + 2 == i2 and j1 + 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 - 1][j2 - 1] > 0:
+                            #possible to move, update board
+                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                                #piece is king
+                                #self.logicBoard[i][j] = 2
+                                #print("King successful.")
+                            #else:
+                                #self.logicBoard[i][j] = 1
+
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i + 1][j + 1] = 0
+                            #print("Successful jump.")
+                            #self.repaint_board()
+                            return True
+                        else:
+                            #invalid move
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        #invalid move
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                elif i1 + 2 == i2 and j1 - 2 == j2:
+                    #possible jump
+                    if self.logicBoard[i2][j2] == 0:
+                        #possible to move, check for opponent in between
+                        if self.logicBoard[i2 - 1][j2 + 1] > 0:
+                            #possible to move, update board
+                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
+                                #piece is king
+                                #self.logicBoard[i][j] = 2
+                                #print("King successful.")
+                            #else:
+                                #self.logicBoard[i][j] = 1
+
+                            #self.logicBoard[self.prevI][self.prevJ] = 0
+                            #self.logicBoard[i + 1][j - 1] = 0
+                            #print("Successful jump.")
+                            #self.repaint_board()
+                            return True
+                        else:
+                            #invalid move
+                            return False
+                            #print("Invalid move. Select starting piece again.")
+                    else:
+                        #invalid move
+                        return False
+                        #print("Invalid move. Select starting piece again.")
+                else:
+                    #invalid move
+                    return False
+                    #print("Invalid move. Select starting piece again.")
+        else:
+            return False
+
 
 if __name__=="__main__":
     size = 40
