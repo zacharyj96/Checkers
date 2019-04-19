@@ -12,6 +12,7 @@ class Board(Tk):
         self.prevJ = -1
         self.overallK = 0
         self.secondClick = False
+        self.controlBoard = []
         self.logicBoard = [[0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
                   [-1, 0, -1, 0, -1, 0, -1, 0, -1, 0],
                   [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
@@ -190,7 +191,7 @@ class Board(Tk):
                     print("Invalid move. Select starting piece again.")
             '''
             self.secondClick = False
-            self.generatePossibleMoves(True)
+            #self.generatePossibleMoves(True)
         else:
             if self.logicBoard[i][j] > 0:
                 #valid piece
@@ -209,53 +210,64 @@ class Board(Tk):
                 if (isPlayer and self.logicBoard[i][j] > 0) or (not isPlayer and self.logicBoard[i][j] < 0):
                     if i >= 2 and j >= 2 and self.isValidMove(isPlayer, i, j, i - 2, j - 2):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i - 2][j - 2][self.overallK] = self.controlBoard[i][j][self.overallK]                 
-                        self.controlBoard[i][j][self.overallK] = 0
-                        self.controlBoard[i - 1][j - 1][self.overallK] = 0
+                        self.controlBoard[self.overallK][i - 2][j - 2] = self.controlBoard[self.overallK][i][j]                 
+                        self.controlBoard[self.overallK][i][j] = 0
+                        self.controlBoard[self.overallK][i - 1][j - 1] = 0
                         self.overallK += 1
                     if i >= 1 and j >= 1 and self.isValidMove(isPlayer, i, j, i - 1, j - 1):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i - 1][j - 1][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
+                        self.controlBoard[self.overallK][i - 1][j - 1] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
                     if i <= 8 and j <= 8 and self.isValidMove(isPlayer, i, j, i + 1, j + 1):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i + 1][j + 1][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
+                        self.controlBoard[self.overallK][i + 1][j + 1] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
                     if i <= 7 and j <= 7 and self.isValidMove(isPlayer, i, j, i + 2, j + 2):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i + 2][j + 2][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
-                        self.controlBoard[i + 1][j + 1][self.overallK] = 0
+                        self.controlBoard[self.overallK][i + 2][j + 2] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
+                        self.controlBoard[self.overallK][i + 1][j + 1] = 0
                         self.overallK += 1
                     if i >= 2 and j <= 7 and self.isValidMove(isPlayer, i, j, i - 2, j + 2):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i - 2][j + 2][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
-                        self.controlBoard[i - 1][j + 1][self.overallK] = 0
+                        self.controlBoard[self.overallK][i - 2][j + 2] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
+                        self.controlBoard[self.overallK][i - 1][j + 1] = 0
                         self.overallK += 1
                     if i >= 1 and j <= 8 and self.isValidMove(isPlayer, i, j, i - 1, j + 1):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i - 1][j + 1][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
+                        self.controlBoard[self.overallK][i - 1][j + 1] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
                     if i <= 8 and j >= 1 and self.isValidMove(isPlayer, i, j, i + 1, j - 1):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i + 1][j - 1][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
+                        self.controlBoard[self.overallK][i + 1][j - 1] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
                     if i <= 7 and j >= 2 and self.isValidMove(isPlayer, i, j, i + 2, j - 2):
                         self.copyBoard(self.logicBoard)
-                        self.controlBoard[i + 2][j - 2][self.overallK] = self.controlBoard[i][j][self.overallK]
-                        self.controlBoard[i][j][self.overallK] = 0
-                        self.controlBoard[i + 1][j - 1][self.overallK] = 0
+                        self.controlBoard[self.overallK][i + 2][j - 2] = self.controlBoard[self.overallK][i][j]
+                        self.controlBoard[self.overallK][i][j] = 0
+                        self.controlBoard[self.overallK][i + 1][j - 1] = 0
                         self.overallK += 1
 
     def copyBoard(self, logicBoard):
+        self.controlBoard.append([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
         for i in range(10):
             for j in range(10):
-                self.controlBoard[i][j][self.overallK] = logicBoard[i][j];
+                self.controlBoard[self.overallK][i][j] = logicBoard[i][j]
+
 
     def isValidMove(self, isPlayer, i1, j1, i2, j2):
         successfulMove = False
