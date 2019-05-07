@@ -47,7 +47,7 @@ class Board(Tk):
         
         
         if self.secondClick:
-            if self.isValidMove(True, self.prevI, self.prevJ, i, j):
+            if self.isValidMove(True, self.prevI, self.prevJ, i, j, self.logicBoard):
                 print("Successful move.")
                 #repaint board
                 self.logicBoard[self.prevI][self.prevJ] = 0
@@ -191,7 +191,23 @@ class Board(Tk):
                     print("Invalid move. Select starting piece again.")
             '''
             self.secondClick = False
-            #self.generatePossibleMoves(True)
+            self.generatePossibleMoves(True, self.logicBoard)
+            print(self.overallK)
+            prevK = 0
+            prevprevK = 0
+
+            for j in range(4):
+                prevprevK = self.overallK
+                for i in range(prevK, self.overallK):
+                    if j % 2 != 0:
+                        self.generatePossibleMoves(True, self.controlBoard[i])
+                    else:
+                        self.generatePossibleMoves(False, self.controlBoard[i])
+                prevK = prevprevK
+
+            print(self.overallK)
+
+            #print(self.overallK)
         else:
             if self.logicBoard[i][j] > 0:
                 #valid piece
@@ -203,51 +219,51 @@ class Board(Tk):
                 print ("Not a cell with one of your pieces. Please select a different cell")
 
 
-    def generatePossibleMoves(self, isPlayer):
-        
+    def generatePossibleMoves(self, isPlayer, boardToUse):
+        print(isPlayer)
         for i in range(10):
             for j in range(10):
-                if (isPlayer and self.logicBoard[i][j] > 0) or (not isPlayer and self.logicBoard[i][j] < 0):
-                    if i >= 2 and j >= 2 and self.isValidMove(isPlayer, i, j, i - 2, j - 2):
-                        self.copyBoard(self.logicBoard)
+                if (isPlayer and boardToUse[i][j] > 0) or (not isPlayer and boardToUse[i][j] < 0):
+                    if i >= 2 and j >= 2 and self.isValidMove(isPlayer, i, j, i - 2, j - 2, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i - 2][j - 2] = self.controlBoard[self.overallK][i][j]                 
                         self.controlBoard[self.overallK][i][j] = 0
                         self.controlBoard[self.overallK][i - 1][j - 1] = 0
                         self.overallK += 1
-                    if i >= 1 and j >= 1 and self.isValidMove(isPlayer, i, j, i - 1, j - 1):
-                        self.copyBoard(self.logicBoard)
+                    if i >= 1 and j >= 1 and self.isValidMove(isPlayer, i, j, i - 1, j - 1, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i - 1][j - 1] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
-                    if i <= 8 and j <= 8 and self.isValidMove(isPlayer, i, j, i + 1, j + 1):
-                        self.copyBoard(self.logicBoard)
+                    if i <= 8 and j <= 8 and self.isValidMove(isPlayer, i, j, i + 1, j + 1, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i + 1][j + 1] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
-                    if i <= 7 and j <= 7 and self.isValidMove(isPlayer, i, j, i + 2, j + 2):
-                        self.copyBoard(self.logicBoard)
+                    if i <= 7 and j <= 7 and self.isValidMove(isPlayer, i, j, i + 2, j + 2, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i + 2][j + 2] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.controlBoard[self.overallK][i + 1][j + 1] = 0
                         self.overallK += 1
-                    if i >= 2 and j <= 7 and self.isValidMove(isPlayer, i, j, i - 2, j + 2):
-                        self.copyBoard(self.logicBoard)
+                    if i >= 2 and j <= 7 and self.isValidMove(isPlayer, i, j, i - 2, j + 2, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i - 2][j + 2] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.controlBoard[self.overallK][i - 1][j + 1] = 0
                         self.overallK += 1
-                    if i >= 1 and j <= 8 and self.isValidMove(isPlayer, i, j, i - 1, j + 1):
-                        self.copyBoard(self.logicBoard)
+                    if i >= 1 and j <= 8 and self.isValidMove(isPlayer, i, j, i - 1, j + 1, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i - 1][j + 1] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
-                    if i <= 8 and j >= 1 and self.isValidMove(isPlayer, i, j, i + 1, j - 1):
-                        self.copyBoard(self.logicBoard)
+                    if i <= 8 and j >= 1 and self.isValidMove(isPlayer, i, j, i + 1, j - 1, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i + 1][j - 1] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.overallK += 1
-                    if i <= 7 and j >= 2 and self.isValidMove(isPlayer, i, j, i + 2, j - 2):
-                        self.copyBoard(self.logicBoard)
+                    if i <= 7 and j >= 2 and self.isValidMove(isPlayer, i, j, i + 2, j - 2, boardToUse):
+                        self.copyBoard(boardToUse)
                         self.controlBoard[self.overallK][i + 2][j - 2] = self.controlBoard[self.overallK][i][j]
                         self.controlBoard[self.overallK][i][j] = 0
                         self.controlBoard[self.overallK][i + 1][j - 1] = 0
@@ -269,17 +285,17 @@ class Board(Tk):
                 self.controlBoard[self.overallK][i][j] = logicBoard[i][j]
 
 
-    def isValidMove(self, isPlayer, i1, j1, i2, j2):
+    def isValidMove(self, isPlayer, i1, j1, i2, j2, boardToUse):
         successfulMove = False
-        if self.logicBoard[i1][j1] == 0:
+        if boardToUse[i1][j1] == 0:
             return False
-        elif self.logicBoard[i1][j1] > 0 and isPlayer:
+        elif boardToUse[i1][j1] > 0 and isPlayer:
             #player move
-            if self.logicBoard[i1][j1] == 2:
+            if boardToUse[i1][j1] == 2:
                 #piece is a king
                 if i1 + 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
                     #possible standard move
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, update board
 
                         #self.logicBoard[i][j] = 2
@@ -293,9 +309,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 + 2 == i2 and j1 + 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 - 1][j2 - 1] < 0:
+                        if boardToUse[i2 - 1][j2 - 1] < 0:
                             #possible to move, update board
                             
                             #self.logicBoard[i][j] = 2
@@ -313,9 +329,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 + 2 == i2 and j1 - 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 - 1][j2 + 1] < 0:
+                        if boardToUse[i2 - 1][j2 + 1] < 0:
                             #possible to move, update board
 
                             #self.logicBoard[i][j] = 2
@@ -340,7 +356,7 @@ class Board(Tk):
                 #piece is normal
                 if i1 - 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
                     #possible standard move
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, update board
 
                         #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
@@ -359,9 +375,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 - 2 == i2 and j1 + 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 + 1][j2 - 1] < 0:
+                        if boardToUse[i2 + 1][j2 - 1] < 0:
                             #possible to move, update board
                             #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
                                 #piece is king
@@ -385,9 +401,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 - 2 == i2 and j1 - 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 + 1][j2 + 1] < 0:
+                        if boardToUse[i2 + 1][j2 + 1] < 0:
                             #possible to move, update board
                             #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
                                 #piece is king
@@ -413,13 +429,13 @@ class Board(Tk):
                     #invalid move
                     return False
                     #print("Invalid move. Select starting piece again.")
-        elif self.logicBoard[i1][j1] < 0 and not isPlayer:
+        elif boardToUse[i1][j1] < 0 and not isPlayer:
             #computer move
-            if self.logicBoard[i1][j1] == -2:
+            if boardToUse[i1][j1] == -2:
                 #piece is a king
                 if i1 - 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
                     #possible standard move
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, update board
 
                         #self.logicBoard[i][j] = 2
@@ -433,9 +449,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 - 2 == i2 and j1 + 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 + 1][j2 - 1] > 0:
+                        if boardToUse[i2 + 1][j2 - 1] > 0:
                             #possible to move, update board
                             
                             #self.logicBoard[i][j] = 2
@@ -453,9 +469,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 - 2 == i2 and j1 - 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 + 1][j2 + 1] > 0:
+                        if boardToUse[i2 + 1][j2 + 1] > 0:
                             #possible to move, update board
 
                             #self.logicBoard[i][j] = 2
@@ -480,7 +496,7 @@ class Board(Tk):
                 #piece is normal
                 if i1 + 1 == i2 and (j1 + 1 == j2 or j1 - 1 == j2):
                     #possible standard move
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, update board
 
                         #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
@@ -499,9 +515,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 + 2 == i2 and j1 + 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 - 1][j2 - 1] > 0:
+                        if boardToUse[i2 - 1][j2 - 1] > 0:
                             #possible to move, update board
                             #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
                                 #piece is king
@@ -525,9 +541,9 @@ class Board(Tk):
                         #print("Invalid move. Select starting piece again.")
                 elif i1 + 2 == i2 and j1 - 2 == j2:
                     #possible jump
-                    if self.logicBoard[i2][j2] == 0:
+                    if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
-                        if self.logicBoard[i2 - 1][j2 + 1] > 0:
+                        if boardToUse[i2 - 1][j2 + 1] > 0:
                             #possible to move, update board
                             #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
                                 #piece is king
