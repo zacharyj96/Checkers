@@ -105,54 +105,27 @@ class Board(Tk):
 
                 self.repaint_board()
 
+                self.masterTree.children = []
+                self.masterTree.pointValue = 0
                 self.masterTree.controlBoard = self.copyBoardReturn(self.logicBoard)
 
                 self.moveLayers(3, self.masterTree)
 
                 self.checkLeafVals(self.masterTree)
 
-                print(str(self.highestPointVal(self.masterTree, -math.inf)))
+                self.calcInternalNodes(self.masterTree, 0)
+
+                #print(str(self.lowestPointVal(self.masterTree, math.inf)))
 
                 #self.printTree(self.masterTree, 0)
 
+                for i in range(len(self.masterTree.children)):
+                    if (self.masterTree.pointValue == self.masterTree.children[i].pointValue):
+                        self.logicBoard = self.copyBoardReturn(self.masterTree.children[i].controlBoard)
+                        self.repaint_board()
+                        break
 
-                #print(self.masterTree.children[1].children[0].children[0].name)
-
-                '''
-                #generate move set for opponent and allow computer to move
-                self.generatePossibleMoves(False, self.logicBoard, -50, self.masterTree)
-                #print(self.overallK)
-                prevK = 0
-                prevprevK = 0
-
-
-                #generates a total of 4 layers
-                for j in range(3):
-                    prevprevK = self.overallK
-                    for i in range(prevK, self.overallK):
-                        if j % 2 != 0:
-                            print(self.controlBoard[i])
-                            self.generatePossibleMoves(False, self.controlBoard[i], i)
-                        else:
-                            print(self.controlBoard[i])
-                            self.generatePossibleMoves(True, self.controlBoard[i], i)
-                    prevK = prevprevK
-
-                print(self.overallK)
-
-                masterTree = Tree('root', None, 0)
-                for j in range(self.overallK):
-                    t = Tree(j, None, 0)
-                    for i in range(j + 1, self.overallK):
-                        if(self.controlBoard[i][0][0] == j):
-                            #control board is a child of control board j
-                            t2 = Tree(i, None, 0)
-                            t.add_child(t2)
-
-
-
-                print(self.controlBoard[self.overallK - 1])
-                '''
+             
             else:
                 print("Invalid move.")
  
@@ -183,6 +156,35 @@ class Board(Tk):
             for i in range(len(treeToUse.children)):
                 maxVal = max(self.highestPointVal(treeToUse.children[i], maxVal), maxVal)
             return maxVal
+
+    def lowestPointVal(self, treeToUse, minVal):
+        if (len(treeToUse.children) == 0):
+            return min(minVal, treeToUse.pointValue)
+        else:
+            for i in range(len(treeToUse.children)):
+                minVal = min(self.lowestPointVal(treeToUse.children[i], minVal), minVal)
+            return minVal
+
+    def calcInternalNodes(self, treeToUse, layer):
+        if (len(treeToUse.children) == 0):
+            return (treeToUse.pointValue)
+        else:
+            if (layer % 2 == 0):
+                # max layer
+                maxVal = -math.inf
+                for i in range(len(treeToUse.children)):
+                    self.calcInternalNodes(treeToUse.children[i], layer + 1)
+                    maxVal = max(maxVal, treeToUse.children[i].pointValue)
+                treeToUse.pointValue = maxVal
+                return maxVal
+            else:
+                # min layer
+                minVal = math.inf
+                for i in range(len(treeToUse.children)):
+                    self.calcInternalNodes(treeToUse.children[i], layer + 1)
+                    minVal = min(minVal, treeToUse.children[i].pointValue)
+                treeToUse.pointValue = minVal
+                return minVal
                     
 
     def printTree(self, treeToUse, layerNum):
@@ -222,9 +224,7 @@ class Board(Tk):
         return points
 
     def moveLayers(self, numLayers, treeToUse):
-        if numLayers == 0:
-            print("end reached")
-        else:
+        if numLayers != 0:
             if (numLayers % 2 != 0):
                 self.generatePossibleMoves(False, treeToUse.controlBoard, treeToUse)
             else:
@@ -233,7 +233,7 @@ class Board(Tk):
                 self.moveLayers(numLayers - 1, treeToUse.children[i])
 
     def generatePossibleMoves(self, isPlayer, boardToUse, treeToUse):
-        print(isPlayer)
+        #print(isPlayer)
         for i in range(10):
             for j in range(10):
                 if (isPlayer and boardToUse[i][j] > 0) or (not isPlayer and boardToUse[i][j] < 0):
