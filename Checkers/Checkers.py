@@ -572,6 +572,49 @@ class Board(Tk):
         else:
             return False
 
+    def calcPoints(self, logicBoard):
+        points = 0
+        xcounter = 0
+        # Loop through the board
+        for x in logicBoard:
+            counter = 0
+            for y in x:
+                # AI Non-King
+                if y == -1:
+                    # Edge Piece
+                    if counter == 0 or counter == 9 or xcounter == 0 or xcounter == 9:
+                        points += 2
+                    else:
+                        points += 1
+                # AI King
+                elif y == -2:
+                    # Edge Piece
+                    if counter == 0 or counter == 9 or xcounter == 0 or xcounter == 9:
+                        points += 4
+                    else:
+                        points += 3
+                # Player Non-King
+                elif y == 1:
+                    # Edge Piece
+                    if counter == 0 or counter == 9 or xcounter == 0 or xcounter == 9:
+                        points -= 2
+                    else:
+                        points -= 1
+                # Player King
+                elif y == 2:
+                    # Edge Piece
+                    if counter == 0 or counter == 9 or xcounter == 0 or xcounter == 9:
+                        points -= 4
+                    else:
+                        points -= 3
+                counter += 1
+            xcounter += 1
+        return points
+
+
+
+
+
 
 if __name__=="__main__":
     size = 40
