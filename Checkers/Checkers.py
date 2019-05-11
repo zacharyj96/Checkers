@@ -299,82 +299,6 @@ class Board(Tk):
                         self.overallK += 1
 
 
-    '''
-    def generatePossibleMoves(self, isPlayer, boardToUse, parentNum, treeToUse):
-        print(isPlayer)
-        for i in range(10):
-            for j in range(10):
-                if (isPlayer and boardToUse[i][j] > 0) or (not isPlayer and boardToUse[i][j] < 0):
-                    if i >= 2 and j >= 2 and self.isValidMove(isPlayer, i, j, i - 2, j - 2, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i - 2][j - 2] = self.controlBoard[self.overallK][i][j]                 
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][i - 1][j - 1] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i >= 1 and j >= 1 and self.isValidMove(isPlayer, i, j, i - 1, j - 1, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i - 1][j - 1] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i <= 8 and j <= 8 and self.isValidMove(isPlayer, i, j, i + 1, j + 1, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i + 1][j + 1] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i <= 7 and j <= 7 and self.isValidMove(isPlayer, i, j, i + 2, j + 2, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i + 2][j + 2] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][i + 1][j + 1] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i >= 2 and j <= 7 and self.isValidMove(isPlayer, i, j, i - 2, j + 2, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i - 2][j + 2] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][i - 1][j + 1] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i >= 1 and j <= 8 and self.isValidMove(isPlayer, i, j, i - 1, j + 1, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i - 1][j + 1] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i <= 8 and j >= 1 and self.isValidMove(isPlayer, i, j, i + 1, j - 1, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i + 1][j - 1] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-                    if i <= 7 and j >= 2 and self.isValidMove(isPlayer, i, j, i + 2, j - 2, boardToUse):
-                        self.copyBoard(boardToUse)
-                        self.controlBoard[self.overallK][i + 2][j - 2] = self.controlBoard[self.overallK][i][j]
-                        self.controlBoard[self.overallK][i][j] = 0
-                        self.controlBoard[self.overallK][i + 1][j - 1] = 0
-                        self.controlBoard[self.overallK][0][0] = parentNum
-                        t = Tree(self.overallK, None, 0)
-                        treeToUse.add_child(t)
-                        self.overallK += 1
-    '''
-
     def copyBoard(self, logicBoard):
         #self.controlBoard = logicBoard
 
@@ -388,18 +312,7 @@ class Board(Tk):
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-        '''
-        self.controlBoard.append([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-        '''
+
         for i in range(10):
             for j in range(10):
                 self.controlBoard[i][j] = logicBoard[i][j]
@@ -419,18 +332,6 @@ class Board(Tk):
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-        '''
-        self.controlBoard.append([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-        '''
         for i in range(10):
             for j in range(10):
                 boardToReturn[i][j] = logicBoard[i][j]
@@ -450,12 +351,7 @@ class Board(Tk):
                     #possible standard move
                     if boardToUse[i2][j2] == 0:
                         #possible to move, update board
-
-                        #self.logicBoard[i][j] = 2
-                        #self.logicBoard[self.prevI][self.prevJ] = 0
-                        #print("Successful move.")
                         successfulMove = True
-                        #self.repaint_board()
                         return True
                     else:
                         return False
@@ -466,13 +362,7 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 - 1][j2 - 1] < 0:
                             #possible to move, update board
-                            
-                            #self.logicBoard[i][j] = 2
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i - 1][j + 1] = 0
-                            #print("Successful move.")
                             successfulMove = True
-                            #self.repaint_board()
                             return True
                         else:
                             return False
@@ -486,13 +376,7 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 - 1][j2 + 1] < 0:
                             #possible to move, update board
-
-                            #self.logicBoard[i][j] = 2
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i - 1][j - 1] = 0
-                            #print("Successful move.")
                             successfulMove = True
-                            #self.repaint_board()
                             return True
                         else:
                             return False
@@ -511,17 +395,6 @@ class Board(Tk):
                     #possible standard move
                     if boardToUse[i2][j2] == 0:
                         #possible to move, update board
-
-                        #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                            #piece is king
-                            #self.logicBoard[i][j] = 2
-                            #print("King successful.")
-                        #else:
-                            #self.logicBoard[i][j] = 1
-
-                        #self.logicBoard[self.prevI][self.prevJ] = 0
-                        #print("Successful move.")
-                        #self.repaint_board()
                         return True
                     else:
                         return False
@@ -532,17 +405,6 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 + 1][j2 - 1] < 0:
                             #possible to move, update board
-                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                                #piece is king
-                                #self.logicBoard[i][j] = 2
-                                #print("King successful.")
-                            #else:
-                                #self.logicBoard[i][j] = 1
-
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i + 1][j + 1] = 0
-                            #print("Successful jump.")
-                            #self.repaint_board()
                             return True
                         else:
                             #invalid move
@@ -558,17 +420,6 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 + 1][j2 + 1] < 0:
                             #possible to move, update board
-                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                                #piece is king
-                                #self.logicBoard[i][j] = 2
-                                #print("King successful.")
-                            #else:
-                                #self.logicBoard[i][j] = 1
-
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i + 1][j - 1] = 0
-                            #print("Successful jump.")
-                            #self.repaint_board()
                             return True
                         else:
                             #invalid move
@@ -590,12 +441,7 @@ class Board(Tk):
                     #possible standard move
                     if boardToUse[i2][j2] == 0:
                         #possible to move, update board
-
-                        #self.logicBoard[i][j] = 2
-                        #self.logicBoard[self.prevI][self.prevJ] = 0
-                        #print("Successful move.")
                         successfulMove = True
-                        #self.repaint_board()
                         return True
                     else:
                         return False
@@ -606,13 +452,7 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 + 1][j2 - 1] > 0:
                             #possible to move, update board
-                            
-                            #self.logicBoard[i][j] = 2
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i - 1][j + 1] = 0
-                            #print("Successful move.")
                             successfulMove = True
-                            #self.repaint_board()
                             return True
                         else:
                             return False
@@ -626,13 +466,7 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 + 1][j2 + 1] > 0:
                             #possible to move, update board
-
-                            #self.logicBoard[i][j] = 2
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i - 1][j - 1] = 0
-                            #print("Successful move.")
                             successfulMove = True
-                            #self.repaint_board()
                             return True
                         else:
                             return False
@@ -651,17 +485,6 @@ class Board(Tk):
                     #possible standard move
                     if boardToUse[i2][j2] == 0:
                         #possible to move, update board
-
-                        #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                            #piece is king
-                            #self.logicBoard[i][j] = 2
-                            #print("King successful.")
-                        #else:
-                            #self.logicBoard[i][j] = 1
-
-                        #self.logicBoard[self.prevI][self.prevJ] = 0
-                        #print("Successful move.")
-                        #self.repaint_board()
                         return True
                     else:
                         return False
@@ -672,17 +495,6 @@ class Board(Tk):
                         #possible to move, check for opponent in between
                         if boardToUse[i2 - 1][j2 - 1] > 0:
                             #possible to move, update board
-                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                                #piece is king
-                                #self.logicBoard[i][j] = 2
-                                #print("King successful.")
-                            #else:
-                                #self.logicBoard[i][j] = 1
-
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i + 1][j + 1] = 0
-                            #print("Successful jump.")
-                            #self.repaint_board()
                             return True
                         else:
                             #invalid move
@@ -697,18 +509,6 @@ class Board(Tk):
                     if boardToUse[i2][j2] == 0:
                         #possible to move, check for opponent in between
                         if boardToUse[i2 - 1][j2 + 1] > 0:
-                            #possible to move, update board
-                            #if i == 0 or self.logicBoard[self.prevI][self.prevJ] == 2:
-                                #piece is king
-                                #self.logicBoard[i][j] = 2
-                                #print("King successful.")
-                            #else:
-                                #self.logicBoard[i][j] = 1
-
-                            #self.logicBoard[self.prevI][self.prevJ] = 0
-                            #self.logicBoard[i + 1][j - 1] = 0
-                            #print("Successful jump.")
-                            #self.repaint_board()
                             return True
                         else:
                             #invalid move
