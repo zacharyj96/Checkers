@@ -1,0 +1,5 @@
+README:
+External Libraries: Tkinter
+Our project is contained within one python file: Checkers.py
+To run our project simply run Checkers.py using python3.
+This can be done in the command line by typing: python Checkers.py
